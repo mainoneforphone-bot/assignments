@@ -1,169 +1,340 @@
-// ======================================
-// JavaScript Assignment
-// ======================================
+// Check if account exists and user is logged in
 
-// --------------------------------------
-// Task 1 – Greeting User
-// --------------------------------------
+let account = JSON.parse(localStorage.getItem("account"));
+let currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
-let userName = prompt("Enter your name:");
-let userAge = prompt("Enter your age:");
+if (currentUser) {
 
-alert("Welcome " + userName + "! You are " + userAge + " years old.");
+    document.getElementById("welcomePage").style.display = "none";
+    document.getElementById("signupPage").style.display = "none";
+    document.getElementById("loginPage").style.display = "none";
+    document.getElementById("dashboard").style.display = "block";
 
-console.log("Name:", userName);
-console.log("Age:", userAge);
+    document.getElementById("welcomeUser").innerHTML =
+    "Welcome, " + currentUser.name + " 👋";
 
-// --------------------------------------
-// Task 2 – Student Grade
-// --------------------------------------
+}
+else{
 
-function checkGrade(marks) {
-    if (marks >= 80) {
-        console.log(marks + ": A Grade");
-    } else {
-        if (marks >= 70) {
-            console.log(marks + ": B Grade");
-        } else {
-            if (marks >= 60) {
-                console.log(marks + ": C Grade");
-            } else {
-                if (marks >= 50) {
-                    console.log(marks + ": Pass");
-                } else {
-                    console.log(marks + ": Fail");
-                }
-            }
+    document.getElementById("welcomePage").style.display = "block";
+
+}
+
+// Show Signup
+
+function showSignup(){
+
+    document.getElementById("welcomePage").style.display="none";
+    document.getElementById("signupPage").style.display="block";
+    document.getElementById("loginPage").style.display="none";
+
+}
+
+// Show Login
+
+function showLogin(){
+
+    document.getElementById("welcomePage").style.display="none";
+    document.getElementById("signupPage").style.display="none";
+    document.getElementById("loginPage").style.display="block";
+
+}
+
+// Create Account
+
+function createAccount(){
+
+    let name=document.getElementById("signupName").value;
+    let password=document.getElementById("signupPassword").value;
+    let confirm=document.getElementById("confirmPassword").value;
+
+    if(name=="" || password=="" || confirm==""){
+
+        alert("Please fill all fields.");
+        return;
+
+    }
+
+    if(password!=confirm){
+
+        alert("Passwords do not match.");
+        return;
+
+    }
+
+    let user={
+
+        name:name,
+        password:password
+
+    };
+
+    localStorage.setItem("account",JSON.stringify(user));
+
+    alert("Account Created Successfully!");
+
+    document.getElementById("signupPage").style.display="none";
+    document.getElementById("loginPage").style.display="block";
+
+}
+
+// Login
+
+function login(){
+
+    let name=document.getElementById("loginName").value;
+    let password=document.getElementById("loginPassword").value;
+
+    let account=JSON.parse(localStorage.getItem("account"));
+
+    if(account==null){
+
+        alert("Please create an account first.");
+        return;
+
+    }
+
+    if(name==account.name && password==account.password){
+
+        localStorage.setItem("currentUser",JSON.stringify(account));
+
+        document.getElementById("loginPage").style.display="none";
+        document.getElementById("dashboard").style.display="block";
+
+        document.getElementById("welcomeUser").innerHTML=
+        "Welcome, "+account.name+" 👋";
+
+    }
+
+    else{
+
+        alert("Invalid Name or Password.");
+
+    }
+
+}
+
+// Logout
+
+function logout(){
+
+    localStorage.removeItem("currentUser");
+
+    document.getElementById("dashboard").style.display="none";
+    document.getElementById("welcomePage").style.display="block";
+
+}
+
+
+let students = JSON.parse(localStorage.getItem("students")) || [];
+
+let editIndex = -1;
+
+displayStudents();
+
+function addStudent(){
+
+    let name = document.getElementById("name").value;
+    let age = document.getElementById("age").value;
+    let course = document.getElementById("course").value;
+
+    if(name=="" || age=="" || course==""){
+
+        alert("Please fill all fields.");
+        return;
+
+    }
+
+    let student={
+
+        name:name,
+        age:age,
+        course:course
+
+    };
+
+    if(editIndex==-1){
+
+        students.push(student);
+
+    }
+
+    else{
+
+        students[editIndex]=student;
+
+        editIndex=-1;
+
+        document.getElementById("addBtn").innerHTML="➕ Add Student";
+
+    }
+
+    localStorage.setItem("students",JSON.stringify(students));
+
+    displayStudents();
+
+    clearFields();
+
+}
+
+function displayStudents(){
+
+    let table=document.getElementById("studentTable");
+
+    table.innerHTML="";
+
+    students.forEach(function(student,index){
+
+        table.innerHTML+=`
+
+        <tr>
+
+        <td>${student.name}</td>
+
+        <td>${student.age}</td>
+
+        <td>${student.course}</td>
+
+        <td>
+
+        <button class="editBtn"
+        onclick="editStudent(${index})">
+
+        ✏ Edit
+
+        </button>
+
+        <button class="deleteBtn"
+        onclick="deleteStudent(${index})">
+
+        🗑 Delete
+
+        </button>
+
+        </td>
+
+        </tr>
+
+        `;
+
+    });
+
+}
+
+function clearFields(){
+
+    document.getElementById("name").value="";
+
+    document.getElementById("age").value="";
+
+    document.getElementById("course").value="";
+
+}// ===============================
+// Edit Student
+// ===============================
+
+function editStudent(index){
+
+    document.getElementById("name").value = students[index].name;
+    document.getElementById("age").value = students[index].age;
+    document.getElementById("course").value = students[index].course;
+
+    editIndex = index;
+
+    document.getElementById("addBtn").innerHTML = "✅ Update Student";
+
+}
+
+// ===============================
+// Delete Student
+// ===============================
+
+function deleteStudent(index){
+
+    let check = confirm("Are you sure you want to delete this student?");
+
+    if(check){
+
+        students.splice(index,1);
+
+        localStorage.setItem("students",JSON.stringify(students));
+
+        displayStudents();
+
+    }
+
+}
+
+// ===============================
+// Delete All Students
+// ===============================
+
+function deleteAllStudents(){
+
+    let check = confirm("Delete all students?");
+
+    if(check){
+
+        students = [];
+
+        localStorage.setItem("students",JSON.stringify(students));
+
+        displayStudents();
+
+    }
+
+}
+
+// ===============================
+// Search Student
+// ===============================
+
+function searchStudent(){
+
+    let input = document.getElementById("search").value.toLowerCase();
+
+    let table = document.getElementById("studentTable");
+
+    table.innerHTML = "";
+
+    students.forEach(function(student,index){
+
+        if(student.name.toLowerCase().includes(input)){
+
+            table.innerHTML += `
+
+            <tr>
+
+            <td>${student.name}</td>
+
+            <td>${student.age}</td>
+
+            <td>${student.course}</td>
+
+            <td>
+
+            <button class="editBtn"
+            onclick="editStudent(${index})">
+
+            ✏ Edit
+
+            </button>
+
+            <button class="deleteBtn"
+            onclick="deleteStudent(${index})">
+
+            🗑 Delete
+
+            </button>
+
+            </td>
+
+            </tr>
+
+            `;
+
         }
-    }
+
+    });
+
 }
-
-// Function Calls
-checkGrade(85);
-checkGrade(75);
-checkGrade(65);
-checkGrade(55);
-checkGrade(40);
-
-// --------------------------------------
-// Task 3 – Even Numbers
-// --------------------------------------
-
-console.log("Even Numbers (1 to 50):");
-
-for (let i = 1; i <= 50; i++) {
-    if (i % 2 === 0) {
-        console.log(i);
-    }
-}
-
-// --------------------------------------
-// Task 4 – Reverse Counting
-// --------------------------------------
-
-console.log("Reverse Counting:");
-
-let number = 10;
-
-while (number >= 1) {
-    console.log(number);
-    number--;
-}
-
-// --------------------------------------
-// Task 5 – Array Operations
-// --------------------------------------
-
-let names = ["Ali", "Ahmed", "Sara", "Zain"];
-
-// Add "Fatima" to the end
-names.push("Fatima");
-
-// Remove first element
-names.shift();
-
-// Add "Usman" at the beginning
-names.unshift("Usman");
-
-// Remove last element
-names.pop();
-
-console.log("Final Array:");
-console.log(names);
-
-// --------------------------------------
-// Task 6 – Slice and Splice
-// --------------------------------------
-
-let numbers = [10, 20, 30, 40, 50, 60];
-
-// Slice
-let slicedArray = numbers.slice(1, 4);
-
-// Splice
-numbers.splice(2, 2);
-
-console.log("Sliced Array:");
-console.log(slicedArray);
-
-console.log("Original Array After Splice:");
-console.log(numbers);
-
-// --------------------------------------
-// Task 7 – Object
-// --------------------------------------
-
-let student = {
-    name: "Ali",
-    age: 18,
-    city: "Karachi",
-    course: "JavaScript"
-};
-
-console.log("Student Name:", student.name);
-console.log("Student City:", student.city);
-
-// --------------------------------------
-// Task 8 – Array of Objects
-// --------------------------------------
-
-let students = [
-    { name: "Ali", marks: 80 },
-    { name: "Sara", marks: 92 },
-    { name: "Ahmed", marks: 65 },
-    { name: "Zain", marks: 50 }
-];
-
-// Part A - map()
-
-let studentNames = students.map(function(student) {
-    return student.name;
-});
-
-console.log("Student Names:");
-console.log(studentNames);
-
-// Part B - forEach()
-
-students.forEach(function(student) {
-    console.log(student.name + " scored " + student.marks + " marks.");
-});
-
-// --------------------------------------
-// Bonus Challenge
-// --------------------------------------
-
-function findTopper(students) {
-    let topper = students[0];
-
-    for (let i = 1; i < students.length; i++) {
-        if (students[i].marks > topper.marks) {
-            topper = students[i];
-        }
-    }
-
-    console.log("Topper: " + topper.name);
-    console.log("Marks: " + topper.marks);
-}
-
-findTopper(students);
