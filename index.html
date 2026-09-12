@@ -1,31 +1,394 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Water Bottle</title>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Management System</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 900px;
+            max-width: 100%;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #555;
+            margin-bottom: 25px;
+        }
+
+        p {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #666;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #28a745;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .green {
+            background: #28a745;
+            color: white;
+        }
+
+        .green:hover {
+            background: #218838;
+        }
+
+        .blue {
+            background: #007bff;
+            color: white;
+            margin-top: 10px;
+        }
+
+        .blue:hover {
+            background: #0069d9;
+        }
+
+        .logout {
+            background: #dc3545;
+            color: white;
+            width: auto;
+            padding: 10px 20px;
+            float: right;
+            margin-bottom: 20px;
+        }
+
+        .logout:hover {
+            background: #c82333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th {
+            background: #007bff;
+            color: white;
+            padding: 15px;
+        }
+
+        td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .editBtn {
+            background: #ffc107;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-right: 5px;
+            width: auto;
+        }
+
+        .deleteBtn {
+            background: #dc3545;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            width: auto;
+        }
+
+        .form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        #signupPage,
+        #loginPage,
+        #dashboard {
+            display: none;
+        }
+
+        @media (max-width: 700px) {
+
+            .form {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            table {
+                font-size: 13px;
+            }
+
+            th,
+            td {
+                padding: 8px;
+            }
+
+            .editBtn,
+            .deleteBtn {
+                padding: 6px 8px;
+                margin: 2px;
+            }
+        }
+
+    </style>
+
 </head>
 
 <body>
 
-    <div class="product-card">
+    <div class="container">
 
-        <div class="bottle">
-            <div class="cap"></div>
-            <div class="bottle-body"></div>
+        <!-- Welcome Page -->
+
+        <div id="welcomePage">
+
+            <h1>🎓 Student Management System</h1>
+
+            <p>Welcome to Student Management System</p>
+
+            <p>Create your account to continue.</p>
+
+            <button class="green" onclick="showSignup()">
+                Create Account
+            </button>
+
+            <button class="blue" onclick="showLogin()">
+                Login
+            </button>
+
         </div>
 
-        <h2>Water Bottle</h2>
 
-        <p class="description">
-            A simple and stylish water bottle for everyday use.
-        </p>
+        <!-- Signup Page -->
 
-        <p class="price">$15</p>
+        <div id="signupPage">
 
-        <button>add to cart</button>
+            <h2>Create Account</h2>
+
+            <input
+                type="text"
+                id="signupName"
+                placeholder="Enter Full Name"
+            >
+
+            <input
+                type="password"
+                id="signupPassword"
+                placeholder="Create Password"
+            >
+
+            <input
+                type="password"
+                id="confirmPassword"
+                placeholder="Confirm Password"
+            >
+
+            <button class="green" onclick="createAccount()">
+                Create Account
+            </button>
+
+            <button class="blue" onclick="showLogin()">
+                Already have an account? Login
+            </button>
+
+        </div>
+
+
+        <!-- Login Page -->
+
+        <div id="loginPage">
+
+            <h2>Login</h2>
+
+            <input
+                type="text"
+                id="loginName"
+                placeholder="Full Name"
+            >
+
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="Password"
+            >
+
+            <button class="blue" onclick="login()">
+                Login
+            </button>
+
+            <button class="green" onclick="showSignup()">
+                Create New Account
+            </button>
+
+        </div>
+
+
+        <!-- Dashboard -->
+
+        <div id="dashboard">
+
+            <button
+                class="logout"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+
+            <h1>🎓 Student Management System</h1>
+
+            <h2 id="welcomeUser">
+                Welcome 👋
+            </h2>
+
+
+            <!-- Student Form -->
+
+            <div class="form">
+
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Student Name"
+                >
+
+                <input
+                    type="number"
+                    id="age"
+                    placeholder="Age"
+                >
+
+                <select id="course">
+
+                    <option value="">
+                        Select Course
+                    </option>
+
+                    <option>
+                        🌐 Web Development
+                    </option>
+
+                    <option>
+                        📱 App Development
+                    </option>
+
+                    <option>
+                        ₿ Crypto
+                    </option>
+
+                    <option>
+                        💹 Forex Trading
+                    </option>
+
+                    <option>
+                        🤖 AI & Data Science
+                    </option>
+
+                    <option>
+                        ✨ Prompt Engineering
+                    </option>
+
+                </select>
+
+                <button
+                    id="addBtn"
+                    class="green"
+                    onclick="addStudent()"
+                >
+                    Add Student
+                </button>
+
+            </div>
+
+
+            <!-- Student Table -->
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Course</th>
+                        <th>Actions</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="studentTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
 
     </div>
 
+
+    <!-- JavaScript -->
+
+    <script src="app.js"></script>
+
 </body>
-</html>   
+
+</html>
