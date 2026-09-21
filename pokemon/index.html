@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Official Pokémon Website</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Header / Navigation Bar -->
+  <header class="navbar">
+    <div class="logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/9/98/International_Pok%C3%A9mon_logo.svg" alt="Pokemon Logo">
+    </div>
+    <nav class="nav-links">
+      <a href="#home" class="active">Home</a>
+      <a href="#pokedex">Pokédex</a>
+      <a href="#cards">TCG Cards</a>
+      <a href="#news">News</a>
+    </nav>
+  </header>
+
+  <!-- Hero Banner -->
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <h1>Welcome to the Pokémon World!</h1>
+      <p>Discover featured Pokémon, explore the Pokédex, and start your journey.</p>
+      <a href="#pokedex" class="btn">Explore Pokédex</a>
+    </div>
+  </section>
+
+  <!-- Featured Pokémon Cards Section -->
+  <section id="pokedex" class="pokemon-section">
+    <h2>Featured Pokémon</h2>
+    <div class="card-grid">
+
+      <!-- Card 1: Pikachu -->
+      <div class="card electric">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" alt="Pikachu">
+        <span class="number">#0025</span>
+        <h3>Pikachu</h3>
+        <p class="type-badge electric-bg">Electric</p>
+      </div>
+
+      <!-- Card 2: Charmander -->
+      <div class="card fire">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png" alt="Charmander">
+        <span class="number">#0004</span>
+        <h3>Charmander</h3>
+        <p class="type-badge fire-bg">Fire</p>
+      </div>
+
+      <!-- Card 3: Squirtle -->
+      <div class="card water">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png" alt="Squirtle">
+        <span class="number">#0007</span>
+        <h3>Squirtle</h3>
+        <p class="type-badge water-bg">Water</p>
+      </div>
+
+      <!-- Card 4: Bulbasaur -->
+      <div class="card grass">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png" alt="Bulbasaur">
+        <span class="number">#0001</span>
+        <h3>Bulbasaur</h3>
+        <p class="type-badge grass-bg">Grass</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 Pokémon. Student Web Assignment.</p>
+  </footer>
+
+</body>
+</html>
